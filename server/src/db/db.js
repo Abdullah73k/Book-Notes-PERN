@@ -3,12 +3,12 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const pool = new pg.Pool({
+const db = new pg.Client({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
     database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
+    password: "Akgd22",
     port: process.env.DB_PORT,
 });
 
-export default pool;
+export default db;

@@ -1,8 +1,8 @@
-import pool from "../db/db.js";
+import db from "../db/db.js";
 
 export const getBookmarks = async (req, res) => {
     try {
-        const result = pool.query("SELECT * FROM bookmarks");
+        const result = db.query("SELECT * FROM bookmarks");
         console.log(result.rows)
         //if no bookmark exists it will send a message which should be a popup for the user to add some
         if (result.rows.length === 0) {
@@ -28,14 +28,14 @@ export const addBookmark = async (req, res) => {
         }
 
         //Check if book already exists within the database
-        const result = await pool.query("SELECT * FROM bookmarks WHERE title=$1", [title]);
+        const result = await db.query("SELECT * FROM bookmarks WHERE title=$1", [title]);
         console.log(result.rows)
         if (result.rows.length > 0) {
             return res.status(409).json({ message: "Book is already in bookmarks. Cannot bookmark twice." });
         }
 
         //if book does not exists then we add the book information in the db
-        const newBookmark = await pool.query(
+        const newBookmark = await db.query(
             "INSERT INTO bookmarks (title, image_url, score) VALUES ($1, $2, $3) RETURNING *",
             [title, image, score]
         );
